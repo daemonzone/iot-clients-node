@@ -1,12 +1,14 @@
 import 'dotenv/config';
 import mqtt from 'mqtt';
 import os from 'os';
-import { randomWord, shortId } from './libs/device-utils.js';
+import path from 'path';
+import { randomWord, shortId, deviceImage } from './libs/device-utils.js';
 
 // Device info
 const ip = getLocalIp();
 const deviceModel = process.env.DEVICE_NAME || randomWord();
 const deviceId = process.env.DEVICE_ID || `unknown-${shortId()}`;
+const deviceImagePath = path.join(process.cwd(), 'images/orange_pi_one_thumb.jpg');
 
 // MQTT configuration from environment
 const MQTT_BROKER = process.env.MQTT_BROKER;
@@ -78,11 +80,14 @@ client.on('connect', () => {
   const registerPayload = JSON.stringify({
     model: deviceModel,
     id: deviceId,
-    ip: ip
+    ip: ip,
+    image: deviceImage(deviceImagePath)
   });
 
   client.publish(registerTopic, registerPayload, { qos: 1, retain: false });
-  console.log(`Registered device on ${registerTopic}: ${registerPayload}`);
+  const loggedPayload = JSON.parse(registerPayload);
+  if (loggedPayload.image) loggedPayload.image = '[base64 image omitted]';
+  console.log(`Registered device on ${registerTopic}: ${JSON.stringify(loggedPayload)}`);
 
   setTimeout(() => {
     handleStatus(client, deviceId);
