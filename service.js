@@ -1,11 +1,21 @@
 import 'dotenv/config';
 import mqtt from 'mqtt';
 import os from 'os';
+import { randomWord, shortId } from './libs/device-utils.js';
+
+// Device info
+const ip = getLocalIp();
+const deviceModel = process.env.DEVICE_NAME || randomWord();
+const deviceId = process.env.DEVICE_ID || `unknown-${shortId()}`;
 
 // MQTT configuration from environment
 const MQTT_BROKER = process.env.MQTT_BROKER;
 const MQTT_USER = process.env.MQTT_USER;
 const MQTT_PASS = process.env.MQTT_PASS;
+
+// MQTT topics configuration
+const statusTopic = `devices/${deviceId}/status`;
+const registerTopic = `devices/${deviceId}/register`;
 
 // Connect options
 const options = {
@@ -60,14 +70,6 @@ function handleStatus(client, deviceId) {
   client.publish(statusTopic, payload);
   console.log(`Published to ${statusTopic}: ${payload}`);
 }
-
-// Device info
-const deviceModel = 'MacBook Pro M2';
-const deviceId = 'davidem2pro';
-const statusTopic = `devices/${deviceId}/status`;
-const registerTopic = `devices/${deviceId}/register`;
-const ip = getLocalIp();
-
 
 client.on('connect', () => {
   console.log('Connected to MQTT broker');

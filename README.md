@@ -90,6 +90,8 @@ A **Node.js service** responsible for:
    Copy .env.example to .env and fill in the MQTT parameters:
 
    ```
+   DEVICE_NAME=Your Device Name
+   DEVICE_ID=unique_device_id
    MQTT_USER=mqtt_user
    MQTT_PASS=mqtt_user  
    MQTT_BROKER_URL=mqtt://localhost
@@ -107,7 +109,7 @@ A **Node.js service** responsible for:
    > node service.js && exit 0
    
    Connected to MQTT broker
-   Registered device on devices/davidem2pro/register: {"model":"MacBook Pro M2","id":"davidem2pro","ip":"10.94.176.171"}
+   Registered device on devices/davidem2pro/register: {"model":"Generic IoT device","id":"iot-device-4d67b2","ip":"10.94.176.171"}
    Published to devices/davidem2pro/status: {"id":"davidem2pro","status":"up","ip":"10.94.176.171","led":null,"uptime":0,"timestamp":"2025-11-06 19:47:57+0100"}
    ...
    ```
