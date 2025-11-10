@@ -3,6 +3,7 @@ import mqtt from 'mqtt';
 import os from 'os';
 import path from 'path';
 import { randomWord, shortId, deviceImage } from './libs/device-utils.js';
+import * as sensorsModule from './libs/sensors-data.js';
 
 // Device info
 const ip = getLocalIp();
@@ -14,6 +15,10 @@ const deviceImagePath = path.join(process.cwd(), 'images/orange_pi_one_thumb.jpg
 const MQTT_BROKER = process.env.MQTT_BROKER;
 const MQTT_USER = process.env.MQTT_USER;
 const MQTT_PASS = process.env.MQTT_PASS;
+
+const sensors = process.env.SENSORS
+  .split(',')          // split by comma
+  .map(s => s.trim()); // trim each element
 
 // MQTT topics configuration
 const statusTopic = `devices/${deviceId}/status`;
@@ -63,7 +68,7 @@ function handleStatus(client, deviceId) {
     id: deviceId,
     status: "up",
     ip,
-    led: null,
+    sensors_data: sensorsModule.getSensorsData(sensors), // check libs/sensors-data.js for specific functions
     uptime: getUptimeMs(),
     timestamp: currentTimestamp()
   };
@@ -80,7 +85,8 @@ client.on('connect', () => {
   const registerPayload = JSON.stringify({
     model: deviceModel,
     id: deviceId,
-    ip: ip,
+    ip,
+    sensors,    
     image: deviceImage(deviceImagePath)
   });
 
