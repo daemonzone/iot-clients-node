@@ -2,8 +2,8 @@ import 'dotenv/config';
 import mqtt from 'mqtt';
 import os from 'os';
 import path from 'path';
-import { randomWord, shortId, deviceImage } from './libs/device-utils.js';
-import * as sensorsModule from './libs/sensors-data.js';
+import { randomWord, shortId, deviceImage } from './utils/device-utils.js';
+import * as sensorsModule from './utils/sensors-data.js';
 
 // Device info
 const ip = getLocalIp();
