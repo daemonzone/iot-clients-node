@@ -95,6 +95,7 @@ A **Node.js service** responsible for:
    MQTT_USER=mqtt_user
    MQTT_PASS=mqtt_user  
    MQTT_BROKER_URL=mqtt://localhost
+   SENSORS=temperature, humidity, led, cpu_temperature
    ```
 
 4. Run the iot-clients-node
