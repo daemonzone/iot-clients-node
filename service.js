@@ -53,14 +53,11 @@ function getUptimeMs() {
 }
 
 function currentTimestamp() {
-  // Returns local time in "YYYY-MM-DD HH:mm:ss±HHMM" format
   const now = new Date();
-  const tzOffset = -now.getTimezoneOffset();
-  const sign = tzOffset >= 0 ? "+" : "-";
-  const pad = (n) => String(n).padStart(2, "0");
-  const tz = pad(Math.floor(Math.abs(tzOffset) / 60)) + pad(Math.abs(tzOffset) % 60);
+  const iso = now.toISOString();
+  const ts = iso.slice(0, 19).replace("T", " ") + "+00:00";
 
-  return now.toISOString().slice(0, 19).replace("T", " ") + sign + tz;
+  return ts;
 }
 
 function handleStatus(client, deviceId) {
