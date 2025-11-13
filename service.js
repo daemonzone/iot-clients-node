@@ -9,7 +9,7 @@ import * as sensorsModule from './utils/sensors-data.js';
 const ip = getLocalIp();
 const deviceModel = process.env.DEVICE_NAME || randomWord();
 const deviceId = process.env.DEVICE_ID || `unknown-${shortId()}`;
-const deviceImagePath = path.join(process.cwd(), 'images/orange_pi_one_thumb.jpg');
+const deviceImagePath = path.join(process.cwd(), 'images/device-image.jpg');
 
 // MQTT configuration from environment
 const MQTT_BROKER = process.env.MQTT_BROKER;
